@@ -1,0 +1,46 @@
+﻿@model FOXIC.Entities.SliderModel.Slider
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div style="padding:100px 100px 100px 300px">
+
+<h1>Details</h1>
+
+<div>
+    <h4>Slider</h4>
+    <hr />
+    <dl class="row">
+        <div>
+            <dt>
+                <span>Image</span>
+            </dt>
+            <dd style="width:300px;height:150px;object-fit:contain" class = "col-sm-10">
+                <img style="width:100%" src="/images/slider/@Model.ImagePath"/>
+            </dd>
+        </div>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Order)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Order)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ImagePath)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ImagePath)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+</div>

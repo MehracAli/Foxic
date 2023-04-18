@@ -1,0 +1,98 @@
+﻿@using FOXIC.Entities.ClothingModels;
+@model FOXIC.Entities.ClothingModels.Clothing
+
+@{
+    ViewData["Title"] = "Details";
+    List<Brand> brands = ViewBag.Brands;
+    List<Collection> collections = ViewBag.Collections;
+    List<Category> categories = ViewBag.Categories;
+}
+}
+<div style="padding:100px 50px">
+
+<h1>Details</h1>
+
+<div>
+    <h4>Clothing</h4>
+    <hr />
+    <div>
+        <dl style="width:100%; display:flex">
+            <dt class = "col-sm-2">
+                <span>Images</span>
+            </dt>
+            @foreach (var item in Model.Images)
+            {
+                 <dd style="margin:0px 10px">
+                    <img style="@((item.IsMain.Equals(true))? "width:100px;height100px":"width:50px;height50px")" src="/images/Clothing/@item.Path"/>
+                </dd>            
+            }
+        </dl>
+    </div>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Discount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Discount)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Stock)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Stock)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SKU)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SKU)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Barcode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Barcode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Brand)
+        </dt>
+        <dd class = "col-sm-10">
+            @brands.FirstOrDefault(b=>b.Id.Equals(Model.BrandId)).Name
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Collection)
+        </dt>
+        <dd class = "col-sm-10">
+            @collections.FirstOrDefault(c=>c.Id.Equals(Model.CollectionId)).Name
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd class = "col-sm-10">
+            @categories.FirstOrDefault(c=>c.Id.Equals(Model.CategoryId)).Name
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+</div>

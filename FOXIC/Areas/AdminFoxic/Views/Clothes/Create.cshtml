@@ -1,0 +1,172 @@
+﻿@using FOXIC.Entities.ClothingModels;
+@model FOXIC.Entities.ClothingModels.Clothing
+
+@{
+    ViewData["Title"] = "Create";
+    List<Brand> brands = ViewBag.Brands;
+    List<Collection> collections = ViewBag.Collections;
+    List<Category> categories = ViewBag.Categories;
+    List<Color> colors = ViewBag.Colors;
+    List<Size> sizes = ViewBag.Sizes;
+    List<Tag> tags = ViewBag.Tags;
+}
+@section CSS{
+    <style>
+
+        .form-group{
+            margin-bottom:30px;
+        }
+
+    </style>
+}
+@section Scripts{
+<script>
+        var button = document.querySelector(".btnSubmit");
+        button.addEventListener("click", function () {
+            var sizes = document.querySelectorAll(".size");
+            var colors = document.querySelectorAll(".color");
+            var quantities = document.querySelectorAll(".quantity");
+            var hiddenInput = document.querySelector("#hiddenInput");
+            var data = [];
+            for (var i = 0; i < sizes.length; i++) {
+                var sizeId = sizes[i].value;
+                var colorId = colors[i].value;
+                var quantity = quantities[i].value.trim();
+                if (quantity === '') {
+                    quantity = '1';
+                }
+                if (quantity <= 0) {
+                    alert("Javid teacher I Knew you would check");
+                    return;
+                }
+                data.push(sizeId + "-" + colorId + "-" + quantity);
+            }
+            hiddenInput.value = data.join(",");
+            console.log(hiddenInput);
+        });
+
+        var addButton = document.querySelector(".btnAdd");
+        addButton.addEventListener("click", function () {
+
+            var parentDiv = this.previousElementSibling;
+            var newDiv = parentDiv.cloneNode(true);
+            parentDiv.after(newDiv);
+
+        });
+        
+    </script>
+}
+<div style="padding:100px 100px 100px 300px">
+
+<h1>Create</h1>
+
+<h4>Clothing</h4>
+<hr />
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="iff_IsMainImage" class="control-label"></label>
+                <input asp-for="iff_IsMainImage" class="form-control" />
+                <span asp-validation-for="iff_IsMainImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="iff_Images" class="control-label"></label>
+                <input asp-for="iff_Images" class="form-control" />
+                <span asp-validation-for="iff_Images" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Discount" class="control-label"></label>
+                <input asp-for="Discount" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SKU" class="control-label"></label>
+                <input asp-for="SKU" class="form-control" />
+                <span asp-validation-for="SKU" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Barcode" class="control-label"></label>
+                <input asp-for="Barcode" class="form-control" />
+                <span asp-validation-for="Barcode" class="text-danger"></span>
+            </div>   
+            <div class="form-group">
+                <label asp-for="BrandId" class="control-label"></label>
+                <select asp-for="BrandId" class ="form-control" asp-items="@(new SelectList(brands, "Id", "Name"))"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CollectionId" class="control-label"></label>
+                <select asp-for="CollectionId" class ="form-control" asp-items="@(new SelectList(collections, "Id", "Name"))"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" class ="form-control" asp-items="@(new SelectList(categories, "Id", "Name"))"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TagsIds" class="control-label"></label>
+                <select asp-for="TagsIds" class ="form-control" asp-items="@(new SelectList(tags, "Id", "Name"))"></select>
+            </div>
+            <div class="mt-5 form-group">
+                <label class="control-label">Size - Color - Quantity</label>
+                <div style="margin-bottom:20px" class="d-flex">
+                    <select class="form-control size" asp-items="@(new SelectList(sizes,"Id","Name"))"></select>
+                    <select class="form-control color" asp-items="@(new SelectList(colors, "Id", "Name"))"></select>
+                    <input class="form-control quantity" type="number" value="1" class="mt-4 " placeholder="How much this plant?" />
+
+                </div>
+                <button class="btn btn-success btnAdd" type="button"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#FFFFFF
+" height="20px" width="20px" version="1.1" id="Capa_1" viewBox="0 0 27.963 27.963" xml:space="preserve">
+<g>
+	<g id="c140__x2B_">
+		<path d="M13.98,0C6.259,0,0,6.26,0,13.982s6.259,13.981,13.98,13.981c7.725,0,13.983-6.26,13.983-13.981    C27.963,6.26,21.705,0,13.98,0z M21.102,16.059h-4.939v5.042h-4.299v-5.042H6.862V11.76h5.001v-4.9h4.299v4.9h4.939v4.299H21.102z    "/>
+	</g>
+	<g id="Capa_1_9_">
+	</g>
+</g>
+</svg></button>
+                <button style="background-color:red" class="btnSubmit btn danger" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 32 32">
+
+<defs>
+
+<style>.cls-1{fill:#FFFFFF;}</style>
+
+</defs>
+
+<g id="check">
+
+<path class="cls-1" d="M12.16,28a3,3,0,0,1-2.35-1.13L3.22,18.62a1,1,0,0,1,1.56-1.24l6.59,8.24A1,1,0,0,0,13,25.56L27.17,4.44a1,1,0,1,1,1.66,1.12L14.67,26.67A3,3,0,0,1,12.29,28Z"/>
+
+</g>
+
+</svg></button>
+
+                <input type="text" id="hiddenInput" name="colorSizeQuantity" hidden/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+</div>

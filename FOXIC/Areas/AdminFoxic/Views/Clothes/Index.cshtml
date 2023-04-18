@@ -1,0 +1,89 @@
+﻿@using FOXIC.Entities.ClothingModels;
+@model IEnumerable<FOXIC.Entities.ClothingModels.Clothing>
+
+@{
+    ViewData["Title"] = "Index";
+    List<Brand> brands = ViewBag.Brands;
+    List<Collection> collections = ViewBag.Collections;
+    List<Category> categories = ViewBag.Categories;
+}
+<div style="padding:100px 50px">
+
+<h1>Clothes</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <span>Image</span>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Discount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Barcode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Collection)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <img style="width:50px;height:70px" src="/images/Clothing/@item.Images.FirstOrDefault(i=>i.IsMain == true)?.Path" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discount)
+            </td>y
+            <td>
+                @Html.DisplayFor(modelItem => item.Stock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Barcode)
+            </td>
+            <td>
+               @brands.FirstOrDefault(b=>b.Id.Equals(item.BrandId)).Name
+            </td>
+            <td>
+                @collections.FirstOrDefault(c=>c.Id.Equals(item.CollectionId)).Name
+            </td>
+            <td>
+                @categories.FirstOrDefault(c=>c.Id.Equals(item.CategoryId)).Name
+            </td>
+            <td style="width:180px">
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>

@@ -1,0 +1,218 @@
+﻿@using FOXIC.Entities.ClothingModels;
+@model FOXIC.Entities.ClothingModels.Clothing
+
+@{
+    ViewData["Title"] = "Edit";
+    List<Brand> brands = ViewBag.Brands;
+    List<Collection> collections = ViewBag.Collections;
+    List<Category> categories = ViewBag.Categories;
+    List<Color> colors = ViewBag.Colors;
+    List<Size> sizes= ViewBag.Sizes;
+    List<Tag> tags = ViewBag.Tags;
+    List<ClothingColorSize> clothingColorSizes = ViewBag.ColorSizeQuantity;
+}
+@section Scripts{
+<script>
+        var button = document.querySelector(".btnSubmit");
+        button.addEventListener("click", function () {
+            var sizes = document.querySelectorAll(".size");
+            var colors = document.querySelectorAll(".color");
+            var quantities = document.querySelectorAll(".quantity");
+            var hiddenInput = document.querySelector("#hiddenInput");
+            var data = [];
+            for (var i = 0; i < sizes.length; i++) {
+                var sizeId = sizes[i].value;
+                var colorId = colors[i].value;
+                var quantity = quantities[i].value.trim();
+                if (quantity === '') {
+                    quantity = '1';
+                }
+                if (quantity <= 0) {
+                    alert("Javid teacher I Knew you would check");
+                    return;
+                }
+                data.push(sizeId + "-" + colorId + "-" + quantity);
+            }
+            hiddenInput.value = data.join(",");
+            console.log(hiddenInput);
+        });
+
+        var addButton = document.querySelector(".btnAdd");
+        addButton.addEventListener("click", function () {
+
+            var parentDiv = this.previousElementSibling;
+            var newDiv = parentDiv.cloneNode(true);
+            parentDiv.after(newDiv);
+
+        });
+        
+        const delBtns = document.querySelectorAll(".delBtn");
+
+        delBtns.forEach(btn=>{
+            btn.addEventListener("click",function(){
+                this.parentElement.parentElement.parentElement.remove();
+            })
+        })
+    </script>
+}
+<div style="padding:100px 100px 100px 300px">
+
+<h1>Edit</h1>
+
+<h4>Clothing</h4>
+<hr />
+<div class="row row justify-content-center">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row images my-4">
+                @foreach (ProductImage image in Model.Images)
+                {
+                   <div>
+                        <div class="card col-md-4" style="@(image.IsMain.Equals(true) ? "width:250px" : "width:150px")">
+                            <img style="@(image.IsMain.Equals(true) ? "width:250px;height:250px" : "width:150px;height:150px");object-fit:contain" src="/images/Clothing/@image.Path" class="card-img-top @(image.IsMain.Equals(true) ? "main" : "")" />
+                            @if (image.IsMain == false)
+                            {
+                                <div class="card-button">
+                                    <button style="position:relative;top-100px" type="button" class="btn btn-danger delBtn"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1">
+    
+    <title>delete [#1487]</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+
+</defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Dribbble-Light-Preview" transform="translate(-179.000000, -360.000000)" fill="#ffffff">
+            <g id="icons" transform="translate(56.000000, 160.000000)">
+                <path d="M130.35,216 L132.45,216 L132.45,208 L130.35,208 L130.35,216 Z M134.55,216 L136.65,216 L136.65,208 L134.55,208 L134.55,216 Z M128.25,218 L138.75,218 L138.75,206 L128.25,206 L128.25,218 Z M130.35,204 L136.65,204 L136.65,202 L130.35,202 L130.35,204 Z M138.75,204 L138.75,200 L128.25,200 L128.25,204 L123,204 L123,206 L126.15,206 L126.15,220 L140.85,220 L140.85,206 L144,206 L144,204 L138.75,204 Z" id="delete-[#1487]">
+
+</path>
+            </g>
+        </g>
+    </g>
+</svg></button>
+                                </div>
+                            }
+                            <input type="hidden" name="ImagesId"  value="@image.Id"/>
+                        </div>
+                   </div>
+                }
+            </div>
+             <div class="form-group">
+                <label asp-for="iff_IsMainImage" class="control-label"></label>
+                <input asp-for="iff_IsMainImage" class="form-control" />
+                <span asp-validation-for="iff_IsMainImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="iff_Images" class="control-label"></label>
+                <input asp-for="iff_Images" class="form-control" />
+                <span asp-validation-for="iff_Images" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Discount" class="control-label"></label>
+                <input asp-for="Discount" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SKU" class="control-label"></label>
+                <input asp-for="SKU" class="form-control" />
+                <span asp-validation-for="SKU" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Barcode" class="control-label"></label>
+                <input asp-for="Barcode" class="form-control" />
+                <span asp-validation-for="Barcode" class="text-danger"></span>
+            </div>   
+            <div class="form-group">
+                <label asp-for="BrandId" class="control-label"></label>
+                <select asp-for="BrandId" class ="form-control" asp-items="@(new SelectList(brands, "Id", "Name"))"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CollectionId" class="control-label"></label>
+                <select asp-for="CollectionId" class ="form-control" asp-items="@(new SelectList(collections, "Id", "Name"))"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" class ="form-control" asp-items="@(new SelectList(categories, "Id", "Name"))"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TagsIds" class="control-label"></label>
+                <select asp-for="TagsIds" class ="form-control">
+
+                    @foreach (var tag in tags)
+                    {
+                        if (Model.TagsIds.Any(t => t == tag.Id))
+                        {
+                            <option value="@tag.Id" selected="selected">@tag.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@tag.Id">@tag.Name</option>
+                        }
+                    }
+
+                </select>
+            </div>
+            <div class="mt-5 form-group">
+                <label class="control-label">Size - Color - Quantity</label>
+                <div style="margin-bottom:20px" class="d-flex">
+                    <select class="form-control size" asp-items="@(new SelectList(sizes,"Id","Name"))"></select>
+                    <select class="form-control color" asp-items="@(new SelectList(colors, "Id", "Name"))"></select>
+                    <input class="form-control quantity" type="number" value="1" class="mt-4 " placeholder="How much this plant?" />
+
+                </div>
+                <button class="btn btn-success btnAdd" type="button"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#FFFFFF
+" height="20px" width="20px" version="1.1" id="Capa_1" viewBox="0 0 27.963 27.963" xml:space="preserve">
+<g>
+	<g id="c140__x2B_">
+		<path d="M13.98,0C6.259,0,0,6.26,0,13.982s6.259,13.981,13.98,13.981c7.725,0,13.983-6.26,13.983-13.981    C27.963,6.26,21.705,0,13.98,0z M21.102,16.059h-4.939v5.042h-4.299v-5.042H6.862V11.76h5.001v-4.9h4.299v4.9h4.939v4.299H21.102z    "/>
+	</g>
+	<g id="Capa_1_9_">
+	</g>
+</g>
+</svg></button>
+                <button style="background-color:red" class="btnSubmit btn danger" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 32 32">
+
+<defs>
+
+<style>.cls-1{fill:#FFFFFF;}</style>
+
+</defs>
+
+<g id="check">
+
+<path class="cls-1" d="M12.16,28a3,3,0,0,1-2.35-1.13L3.22,18.62a1,1,0,0,1,1.56-1.24l6.59,8.24A1,1,0,0,0,13,25.56L27.17,4.44a1,1,0,1,1,1.66,1.12L14.67,26.67A3,3,0,0,1,12.29,28Z"/>
+
+</g>
+
+</svg></button>
+
+                <input type="text" id="hiddenInput" name="colorSizeQuantity" hidden/>
+            </div>
+            <input type="hidden" asp-for="Id" />
+            <div style="margin-top:20px" class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+</div>

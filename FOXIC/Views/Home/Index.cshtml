@@ -1,0 +1,476 @@
+﻿@using FOXIC.Entities.ClothingModels;
+@using FOXIC.ViewModel;
+@model List<SliderVM>
+@{
+	ViewData["Title"] = "Home Page";
+	List<Clothing> clothes = ViewBag.Clothes;
+	List<Collection> collections = ViewBag.Collections;
+	List<Color> colors = ViewBag.Colors; 
+}
+@section CSS{
+	<style>
+		.collectionBlock
+		{
+			display:block !important;
+		}
+	</style>
+}
+@section Scripts{
+	<script>
+		const collection1Btn = document.querySelector(".collection-1-btn")
+		const collection2Btn = document.querySelector(".collection-2-btn")
+		console.log(collection1Btn)
+		
+		collection1Btn.addEventListener("click", function(){
+			let col1 = document.querySelectorAll(".collection-1")
+			let col2 = document.querySelectorAll(".collection-2")
+			col1.forEach((Element)=>{
+				Element.classList.add("collectionBlock")
+			})
+
+			col2.forEach((Element)=>{
+				Element.classList.remove("collectionBlock")
+			})
+		})
+
+		collection2Btn.addEventListener("click", function(){
+			let col2 = document.querySelectorAll(".collection-2")
+			let col1 = document.querySelectorAll(".collection-1")
+			col2.forEach((Element)=>{
+				Element.classList.add("collectionBlock")
+			})
+
+			col1.forEach((Element)=>{
+				Element.classList.remove("collectionBlock")
+			})
+		})
+	</script>
+}
+<div class="page-content">
+	<!-- Main Slider -->
+<div class="holder fullwidth full-nopad mt-0">
+    <div class="container">
+        <div class="bnslider-wrapper">
+            <div class="bnslider bnslider--lg keep-scale" id="bnslider-001" data-slick='{"arrows": true, "dots": true}' data-autoplay="false" data-speed="12000" data-start-width="1917" data-start-height="764" data-start-mwidth="1550" data-start-mheight="1000">	
+				@foreach (SliderVM slider in Model)
+				{
+							<div class="bnslider-slide">
+						<div class="bnslider-image-mobile lazyload" data-bgset="/images/slider/@slider.ImagePath"></div>
+						<div class="bnslider-image lazyload" data-bgset="/images/slider/@slider.ImagePath"></div>
+						<div class="bnslider-text-wrap bnslider-overlay ">
+							<div class="bnslider-text-content txt-middle txt-right txt-middle-m txt-center-m">
+								<div class="bnslider-text-content-flex ">
+									<div class="bnslider-vert w-s-60 w-ms-100" style="padding: 0px">
+										<div class="bnslider-text order-1 mt-sm bnslider-text--md text-center data-ini" data-animation="fadeInUp" data-animation-delay="800" data-fontcolor="#282828" data-fontweight="700" data-fontline="1.5">@slider.Title</div>
+										<div class="btn-wrap text-center  order-4 mt-md" data-animation="fadeIn" data-animation-delay="2000" style="opacity: 1;">
+											<a asp-controller="Clothing" asp-action="Index" target="_blank" class="btn">
+												Shop now
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+            </div>
+            <div class="bnslider-arrows container-fluid">
+                <div></div>
+            </div>
+            <div class="bnslider-dots container-fluid"></div>
+        </div>
+    </div>
+</div>
+<!-- //Main Slider -->
+	<div class="holder holder-mt-medium section-name-products-grid" id="productsGrid01">
+	<div class="container">
+		<div class="title-wrap text-center">
+			<h2 class="h1-style">Collections</h2>
+			<div class="title-wrap title-tabs-wrap text-center js-title-tabs">
+				<div class="title-tabs">
+						<h2 class="collection-1-btn h3-style">
+							<a href="#" data-total="8" data-loaded="4" data-grid-tab-title><span class="title-tabs-text theme-font">Man</span></a>
+						</h2>
+						<h2 class="collection-2-btn h3-style">
+							<a href="#" data-total="8" data-loaded="4" data-grid-tab-title><span class="title-tabs-text theme-font">Woman</span></a>
+						</h2>
+				</div>
+			</div>
+		</div>
+
+		<div class="prd-grid-wrap">
+		@*buradabaslayir*@	
+		<div class="d-flex">
+		@foreach (Clothing clothing in clothes)
+		{	
+			if(clothing.CollectionId == 1)
+			{
+				<div class="collectionBlock collection-1 prd prd--style2 prd-labels--max prd-labels-shadow prd-w-lg" style="display:none;width:270px;height:470px">
+					<div class="prd-inside">
+						<div class="prd-img-area">
+							<a asp-controller="Clothing" asp-action="Detail" asp-route-Id="@clothing.Id" class="prd-img image-hover-scale image-container" style="padding-bottom: 128.48%">
+								<img src="~/images/Clothing/@(clothing.Images.FirstOrDefault(i=>i.IsMain == true)?.Path)" alt="Leather Pegged Pants" class="js-prd-img fade-up ls-is-cached lazyloaded">
+								<div class="foxic-loader"></div>
+								<div class="prd-big-squared-labels"></div>
+							</a>
+						<div class="prd-circle-labels">
+							<a href="#" class="circle-label-compare circle-label-wishlist--add js-add-wishlist mt-0" title="Add To Wishlist">
+								<i class="icon-heart-stroke"></i>
+							</a>
+							<a href="#" class="circle-label-compare circle-label-wishlist--off js-remove-wishlist mt-0" title="Remove From Wishlist">
+								<i class="icon-heart-hover"></i>
+							</a>
+							<a href="#" class="circle-label-qview js-prd-quickview prd-hide-mobile" data-src="ajax/ajax-quickview.html">
+								<i class="icon-eye"></i>
+								<span>QUICK VIEW</span>
+							</a>
+							<div class="colorswatch-label colorswatch-label--variants js-prd-colorswatch">
+								<i class="icon-palette">
+									<span class="path1"></span>
+									<span class="path2"></span>
+									<span class="path3"></span>
+									<span class="path4"></span>
+									<span class="path5"></span>
+									<span class="path6"></span>
+									<span class="path7"></span>
+									<span class="path8"></span>
+									<span class="path9"></span>
+									<span class="path10"></span>
+								</i>
+								<ul>
+									@foreach (Color color in colors)
+									{
+										if(clothing.ClothingColorSizes.Any(cs=>cs.ColorId == color.Id))
+										{
+											<li>
+												<a class="js-color-toggle" data-toggle="tooltip" data-placement="left" title="" data-original-title="@color.Name">
+													<img src="/images/Colors/@color.Path" alt="">
+												</a>
+											</li>
+										}
+									}
+								</ul>
+							</div>
+						</div>
+						</div>
+						<div class="prd-info">
+							<div class="prd-info-wrap">
+								<div class="prd-info-top">
+									<div class="prd-rating">
+										<i class="icon-star-fill fill"></i>
+										<i class="icon-star-fill fill"></i>
+										<i class="icon-star-fill fill"></i>
+										<i class="icon-star-fill fill"></i>
+										<i class="icon-star-fill fill"></i>
+									</div>
+								</div>
+								<div class="prd-rating justify-content-center">
+									<i class="icon-star-fill fill"></i>
+									<i class="icon-star-fill fill"></i>
+									<i class="icon-star-fill fill"></i>
+									<i class="icon-star-fill fill"></i>
+									<i class="icon-star-fill fill"></i>
+								</div>
+								<div class="prd-tag">
+									<a href="#">@clothing.Brand.Name</a>
+								</div>
+								<h2 class="prd-title">
+									<a href="product.html">@clothing.Name</a>
+								</h2>
+								<div class="prd-description">@clothing.Description
+								</div>
+							</div>
+								<div class="prd-hovers">
+									<div class="prd-circle-labels">
+										<div>
+											<a asp-controller="Clothing" asp-action="AddToWish" asp-route-Id="@clothing.Id" class="circle-label-compare circle-label-wishlist--add js-add-wishlist mt-0" title="Add To Wishlist">
+												<i class="icon-heart-stroke"></i>
+											</a>
+											<a href="#" class="circle-label-compare circle-label-wishlist--off js-remove-wishlist mt-0" title="Remove From Wishlist">
+												<i class="icon-heart-hover"></i>
+											</a> 
+										</div>
+										<div>
+											<a asp-controller="Clothing" asp-action="Detail" asp-route-Id="@clothing.Id">
+												<i class="icon-eye"></i>
+												<span>QUICK VIEW</span>
+											</a>
+										</div>
+									</div>
+									<div class="prd-price">
+										<div class="price-new">$@(clothing.Price-clothing.Discount)</div>
+									</div>
+									<div class="prd-action">
+										<div class="prd-action-left">
+											<div >
+												<a asp-controller="Clothing" asp-action="AddToBasket" asp-route-Id="@clothing.Id" class="btn" >
+													Add To Cart
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			}
+		}
+		@foreach (Clothing clothing in clothes)
+		{	
+			if(clothing.CollectionId == 2)
+			{
+				<div class="collection-2 prd prd--style2 prd-labels--max prd-labels-shadow prd-w-lg" style="display:none;width:270px;height:470px">
+					<div class="prd-inside">
+						<div class="prd-img-area">
+							<a asp-controller="Clothing" asp-action="Detail" asp-route-Id="@clothing.Id" class="prd-img image-hover-scale image-container" style="padding-bottom: 128.48%">
+								<img src="~/images/Clothing/@(clothing.Images.FirstOrDefault(i=>i.IsMain == true)?.Path)" alt="Leather Pegged Pants" class="js-prd-img fade-up ls-is-cached lazyloaded">
+								<div class="foxic-loader"></div>
+								<div class="prd-big-squared-labels"></div>
+							</a>
+						<div class="prd-circle-labels">
+							<a href="#" class="circle-label-compare circle-label-wishlist--add js-add-wishlist mt-0" title="Add To Wishlist">
+								<i class="icon-heart-stroke"></i>
+							</a>
+							<a href="#" class="circle-label-compare circle-label-wishlist--off js-remove-wishlist mt-0" title="Remove From Wishlist">
+								<i class="icon-heart-hover"></i>
+							</a>
+							<a href="#" class="circle-label-qview js-prd-quickview prd-hide-mobile" data-src="ajax/ajax-quickview.html">
+								<i class="icon-eye"></i>
+								<span>QUICK VIEW</span>
+							</a>
+							<div class="colorswatch-label colorswatch-label--variants js-prd-colorswatch">
+								<i class="icon-palette">
+									<span class="path1"></span>
+									<span class="path2"></span>
+									<span class="path3"></span>
+									<span class="path4"></span>
+									<span class="path5"></span>
+									<span class="path6"></span>
+									<span class="path7"></span>
+									<span class="path8"></span>
+									<span class="path9"></span>
+									<span class="path10"></span>
+								</i>
+								<ul>
+									@foreach (Color color in colors)
+									{
+										if(clothing.ClothingColorSizes.Any(cs=>cs.ColorId == color.Id))
+										{
+											<li>
+												<a class="js-color-toggle" data-toggle="tooltip" data-placement="left" title="" data-original-title="@color.Name">
+													<img src="/images/Colors/@color.Path" alt="">
+												</a>
+											</li>
+										}
+									}
+								</ul>
+							</div>
+						</div>
+						</div>
+						<div class="prd-info">
+							<div class="prd-info-wrap">
+								<div class="prd-info-top">
+									<div class="prd-rating">
+										<i class="icon-star-fill fill"></i>
+										<i class="icon-star-fill fill"></i>
+										<i class="icon-star-fill fill"></i>
+										<i class="icon-star-fill fill"></i>
+										<i class="icon-star-fill fill"></i>
+									</div>
+								</div>
+								<div class="prd-rating justify-content-center">
+									<i class="icon-star-fill fill"></i>
+									<i class="icon-star-fill fill"></i>
+									<i class="icon-star-fill fill"></i>
+									<i class="icon-star-fill fill"></i>
+									<i class="icon-star-fill fill"></i>
+								</div>
+								<div class="prd-tag">
+									<a href="#">FOXic</a>
+								</div>
+								<h2 class="prd-title">
+									<a href="product.html">@clothing.Name</a>
+								</h2>
+								<div class="prd-description">@clothing.Description
+								</div>
+							</div>
+								<div class="prd-hovers">
+									<div class="prd-circle-labels">
+										<div>
+											<a asp-controller="Clothing" asp-action="AddToWish" asp-route-Id="@clothing.Id" class="circle-label-compare circle-label-wishlist--add js-add-wishlist mt-0" title="Add To Wishlist">
+												<i class="icon-heart-stroke"></i>
+											</a>
+											<a href="#" class="circle-label-compare circle-label-wishlist--off js-remove-wishlist mt-0" title="Remove From Wishlist">
+												<i class="icon-heart-hover"></i>
+											</a> 
+										</div>
+										<div>
+											<a asp-controller="Clothing" asp-action="Detail" asp-route-Id="@clothing.Id">
+												<i class="icon-eye"></i>
+												<span>QUICK VIEW</span>
+											</a>
+										</div>
+									</div>
+									<div class="prd-price">
+										<div class="price-new">$@(clothing.Price-clothing.Discount)</div>
+									</div>
+									<div class="prd-action">
+										<div class="prd-action-left">
+											<div >
+												<a asp-controller="Clothing" asp-action="AddToBasket" asp-route-Id="@clothing.Id" class="btn" >
+													Add To Cart
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			}
+		}
+		</div>
+		@*burada bitir*@
+
+
+			<!--<div class="circle-loader-wrap d-none">-->
+				<!--<div class="circle-loader">-->
+					<!--<a href="" data-load="4" class="js-circle-loader">-->
+						<!--<svg id="svg_d" version="1.1" xmlns="http://www.w3.org/2000/svg">-->
+							<!--<circle cx="50%" cy="50%" r="63" fill="transparent"></circle>-->
+							<!--<circle class="js-circle-bar" cx="50%" cy="50%" r="63" fill="transparent"></circle>-->
+						<!--</svg>-->
+						<!--<svg id="svg_m" version="1.1" xmlns="http://www.w3.org/2000/svg">-->
+							<!--<circle cx="50%" cy="50%" r="50" fill="transparent"></circle>-->
+							<!--<circle class="js-circle-bar" cx="50%" cy="50%" r="50" fill="transparent"></circle>-->
+						<!--</svg>-->
+						<!--<div class="circle-loader-text">Load More</div>-->
+						<!--<div class="circle-loader-text-alt"><span class="js-circle-loader-start"></span>&nbsp;out of&nbsp;<span class="js-circle-loader-end"></span></div>-->
+					<!--</a>-->
+				<!--</div>-->
+			<!--</div>-->
+		</div>
+	</div>
+</div>
+	<div class="holder holder-mt-medium ">
+	<div class="container">
+		<a href="https://bit.ly/3eJX5XE" style="display:none" target="_blank" class="collection-1 collectionBlock bnr-wrap bnr-">
+			<div class="bnr custom-caption image-hover-scale bnr--middle bnr--right bnr--fullwidth">
+				<div class="bnr-img d-none d-sm-block image-container" style="padding-bottom: 41.36752136752137%">
+					<img src="/images/Clothing/@clothes.OrderBy(c=>c.Id).FirstOrDefault(c=>c.CollectionId == 1).Images.FirstOrDefault(i=>i.IsMain is true).Path" class="lazyload fade-up" alt=""></div>
+				<div class="bnr-img d-sm-none image-container" style="padding-bottom: 74.3139407244786%">
+					<img src="/images/Clothing/@clothes.OrderBy(c=>c.Id).FirstOrDefault(c=>c.CollectionId == 1).Images.FirstOrDefault(i=>i.IsMain is true).Path" class="lazyload fade-up" alt=""></div>
+				<div class="bnr-caption text-center" style="padding: 4% 4%; ">
+					<div class="bnr-caption-inside w-s-50 w-ms-100 title-wrap">
+						<h2 class="h1-style">The best trends<br class="d-sm-none"> of summer 2023</h2>
+						<div class="bnr-btn inherit mt-sm order-3">
+							<div class="btn">Buy Now</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</a>
+		<a href="https://bit.ly/3eJX5XE" style="display:none" target="_blank" class="collection-2 bnr-wrap bnr-">
+			<div class="bnr custom-caption image-hover-scale bnr--middle bnr--right bnr--fullwidth">
+				<div class="bnr-img d-none d-sm-block image-container" style="padding-bottom: 41.36752136752137%">
+					<img src="/images/Clothing/@clothes.OrderBy(c=>c.Id).FirstOrDefault(c=>c.CollectionId == 2).Images.FirstOrDefault(i=>i.IsMain is true).Path" class="lazyload fade-up" alt=""></div>
+				<div class="bnr-img d-sm-none image-container" style="padding-bottom: 74.3139407244786%">
+					<img src="/images/Clothing/@clothes.OrderBy(c=>c.Id).FirstOrDefault(c=>c.CollectionId == 2).Images.FirstOrDefault(i=>i.IsMain is true).Path" class="lazyload fade-up" alt=""></div>
+				<div class="bnr-caption text-center" style="padding: 4% 4%; ">
+					<div class="bnr-caption-inside w-s-50 w-ms-100 title-wrap">
+						<h2 class="h1-style">The best trends<br class="d-sm-none"> of summer 2023</h2>
+						<div class="bnr-btn inherit mt-sm order-3">
+							<div class="btn">Buy Now</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+	<div class="holder">
+	<div class="container">
+		<div class="title-wrap text-center"><h2 class="h1-style">New arrival</h2>
+			<div class="h-sub maxW-825">Hurry up! Limited</div>
+		</div>
+		<div class="prd-grid-wrap position-relative">
+			<div class="prd-grid data-to-show-4 data-to-show-lg-4 data-to-show-md-3 data-to-show-sm-2 data-to-show-xs-2 js-category-grid" data-grid-tab-content>
+				@foreach (Clothing clothing in clothes.Take(8))
+				{		
+					<div class="prd prd--style2 prd-labels--max prd-labels-shadow ">
+				<div class="prd-inside">
+				<div class="prd-img-area">
+				<a asp-controller="Clothing" asp-action="Detail" asp-route-Id="@clothing.Id" class="prd-img image-hover-scale image-container">
+				<img src="/images/Clothing/@clothing.Images.FirstOrDefault(i=>i.IsMain is true)?.Path" class="js-prd-img lazyload fade-up">
+				<div class="foxic-loader"></div>
+				<div class="prd-big-squared-labels">
+					
+					<div class="label-new"><span>New</span></div>
+					
+					
+					<div style="@((@clothing.Discount == 0)? "display:none;":"")" class="label-sale"><span>-$@clothing.Discount <span class="sale-text">Sale</span></span>
+						
+						<div class="countdown-circle">
+							<div class="countdown js-countdown" data-countdown="2021/07/01"></div>
+						</div>
+						
+					</div>
+					
+					
+				</div>
+				</a>
+			<div class="prd-circle-labels">
+				<a href="#" class="circle-label-compare circle-label-wishlist--add js-add-wishlist mt-0" title="Add To Wishlist"><i class="icon-heart-stroke"></i></a><a href="#" class="circle-label-compare circle-label-wishlist--off js-remove-wishlist mt-0" title="Remove From Wishlist"><i class="icon-heart-hover"></i></a>
+				<a href="#" class="circle-label-qview js-prd-quickview prd-hide-mobile" data-src="ajax/ajax-quickview.html"><i class="icon-eye"></i><span>QUICK VIEW</span></a>
+			</div>			
+		</div>
+		<div class="prd-info">
+			<div class="prd-info-wrap">
+				<div class="prd-info-top">
+					<div class="prd-rating"><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i></div>
+				</div>
+				<div class="prd-rating justify-content-center"><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i><i class="icon-star-fill fill"></i></div>
+				<h2 class="prd-title"><a href="product.html">@clothing.Name</a></h2>
+				<div class="prd-description">
+					@clothing.Description
+				</div>
+				<div class="prd-action">
+					<form action="#">
+						<button class="btn js-prd-addtocart" data-product='{"name": "Oversized Cotton Blouse", "path":"/images/skins/fashion/products/product-03-1.jpg", "url":"product.html", "aspect_ratio":0.778}'>Add To Cart</button>
+					</form>
+				</div>
+			</div>
+			<div class="prd-hovers">
+				<div class="prd-circle-labels">
+					<div><a href="#" class="circle-label-compare circle-label-wishlist--add js-add-wishlist mt-0" title="Add To Wishlist"><i class="icon-heart-stroke"></i></a><a href="#" class="circle-label-compare circle-label-wishlist--off js-remove-wishlist mt-0" title="Remove From Wishlist"><i class="icon-heart-hover"></i></a></div>
+					<div class="prd-hide-mobile"><a href="#" class="circle-label-qview js-prd-quickview" data-src="ajax/ajax-quickview.html"><i class="icon-eye"></i><span>QUICK VIEW</span></a></div>
+				</div>
+				<div class="prd-price">
+					
+					@if(clothing.Discount != 0)
+					{
+						<div class="price-old">$@clothing.Price</div>
+						<div class="price-new">$@(clothing.Price-clothing.Discount)</div>
+					}
+					else
+					{
+						<div class="price-new">$@clothing.Price</div>
+					}
+				</div>
+				<div class="prd-action">
+					<div class="prd-action-left">
+						<div>
+							<a asp-controller="Clothing" asp-action="AddToBasket" asp-route-Id="@clothing.Id"  class="btn">Add To Cart</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+				}
+			</div>
+		</div>
+	</div>
+</div>
+</div>
