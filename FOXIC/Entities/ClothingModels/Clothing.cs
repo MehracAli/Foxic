@@ -39,6 +39,8 @@ namespace FOXIC.Entities.ClothingModels
 		public List<int> ImagesIds { get; set; }
 		[NotMapped]
 		public string? ColorSizeQuantity { get; set; }
+		[NotMapped]
+		public string? SearchString { get; set; }
 
         public Clothing()
 		{

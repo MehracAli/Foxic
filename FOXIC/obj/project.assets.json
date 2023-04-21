@@ -10197,11 +10197,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Programming\\C#\\BackendProject\\FoxicBackendProject-master\\FOXIC\\FOXIC.csproj",
+      "projectUniqueName": "D:\\Programming\\ProjeBack\\ProjectFatal\\FOXIC\\FOXIC.csproj",
       "projectName": "FOXIC",
-      "projectPath": "D:\\Programming\\C#\\BackendProject\\FoxicBackendProject-master\\FOXIC\\FOXIC.csproj",
+      "projectPath": "D:\\Programming\\ProjeBack\\ProjectFatal\\FOXIC\\FOXIC.csproj",
       "packagesPath": "C:\\Users\\mehra\\.nuget\\packages\\",
-      "outputPath": "D:\\Programming\\C#\\BackendProject\\FoxicBackendProject-master\\FOXIC\\obj\\",
+      "outputPath": "D:\\Programming\\ProjeBack\\ProjectFatal\\FOXIC\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mehra\\AppData\\Roaming\\NuGet\\NuGet.Config",

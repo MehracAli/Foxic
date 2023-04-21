@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace FOXIC.Entities.UserModels
 {
@@ -14,5 +15,5 @@ namespace FOXIC.Entities.UserModels
             Comments = new();
             Baskets = new();
         }
-    }
+	}
 }

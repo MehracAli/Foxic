@@ -89,6 +89,22 @@ namespace FOXIC.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
+		public async Task<IActionResult> Details()
+		{
+			User user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+			return View(user);
+		}
+
+		public IActionResult Wishlist()
+		{
+			return View();
+		}
+
+		public IActionResult History()
+		{
+			return View();
+		}
 		//public async Task AddRoles()
 		//{
 		//	await _roleManager.CreateAsync(new IdentityRole("Admin"));

@@ -115,73 +115,230 @@ namespace FOXIC.Controllers
 
 		public IActionResult AddToBasket(int Id)
 		{
-			if(Id == 0) return NotFound();
+			ViewBag.Clothes = _context.Clothes
+				.Include (c=>c.Images)
+					.DistinctBy(c=>c.Id)
+						.ToList();
 
-			Clothing clothing = _context.Clothes.FirstOrDefault(c => c.Id == Id);
+			if (Id == null) return NotFound();
+			Clothing clothing = _context.Clothes.FirstOrDefault(c=>c.Id == Id);
+			if (clothing is null) return NotFound();
 
-			if(clothing is null) return NotFound();
+			User? user = (User)_context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+			Basket basket = _context.Baskets.FirstOrDefault(b => b.User.Name == User.Identity.Name);
 
-			var Cookies = HttpContext.Request.Cookies["Basket"];
-
-			CookiesBasketVM basket = new();
-
-			if (Cookies is null)
+			if(user != null)
 			{
-				CookiesItemVM item = new()
+				if (basket is null)
 				{
-					Id = clothing.Id,
-					Quantity = 1,
-					Price = clothing.Price,
-					Discount = clothing.Discount,
-				};
-				basket.cookiesItemVMs.Add(item);
-				basket.TotalPrice += (item.Price-item.Discount);
-			}
-			else
-			{
-				basket = JsonConvert.DeserializeObject<CookiesBasketVM>(Cookies);
-				CookiesItemVM exictedItem = basket.cookiesItemVMs.Find(i => i.Id == Id);
-				if (exictedItem is null)
-				{
-					CookiesItemVM item = new()
+					Basket newBasket = new()
 					{
-						Id = clothing.Id,
-						Quantity = 1,
-						Price = clothing.Price,
-						Discount = clothing.Discount,
+						User = user,
 					};
-					basket.cookiesItemVMs.Add(item);
-					basket.TotalPrice += (item.Price-item.Discount);
+
+					BasketItem basketItem = new()
+					{
+						ClothingId = Id,
+						UnitPrice = (clothing.Price-clothing.Discount),
+						Discount = clothing.Discount,
+						ItemQuantity = 1,
+						BasketId = newBasket.Id,
+						Basket = newBasket
+					};
+
+					newBasket.BasketItems.Add(basketItem);
+					newBasket.TotalPrice += basketItem.UnitPrice;
+
+					_context.BasketItems.Add(basketItem);
+					_context.Baskets.Add(newBasket);
 				}
 				else
 				{
-					exictedItem.Quantity++;
-					basket.TotalPrice += exictedItem.Price-exictedItem.Discount;
+
+					BasketItem exicted = basket.BasketItems.Find(bi => bi.ClothingId == Id);
+
+					if (exicted is null)
+					{
+						BasketItem newItem = new()
+						{
+							ClothingId = Id,
+							UnitPrice = (clothing.Price - clothing.Discount),
+							Discount = clothing.Discount,
+							ItemQuantity = 1,
+							BasketId = basket.Id,
+							Basket = basket,
+						};
+
+						basket.BasketItems.Add(newItem);
+						basket.TotalPrice += newItem.UnitPrice;
+
+						_context.BasketItems.Add(newItem);
+					}
+					else
+					{
+						exicted.ItemQuantity++;
+						basket.TotalPrice += (exicted.UnitPrice);
+					}
+
 				}
 			}
-			var basketStr = JsonConvert.SerializeObject(basket);
-			HttpContext.Response.Cookies.Append("basket", basketStr);
+
+			_context.SaveChanges();
 			return RedirectToAction(nameof(Index));
 		}
 
-		public IActionResult DeleteBasketItem(int Id)
+		public IActionResult AddToBasketDetail(int Id, ClothingVM clothingVM)
 		{
-			var cookies = HttpContext.Request.Cookies["Basket"];
-			var basket = JsonConvert.DeserializeObject<CookiesBasketVM>(cookies);
+			if (Id == null) return NotFound();
+			Clothing clothing = _context.Clothes.FirstOrDefault(c => c.Id == Id);
+			if (clothing is null) return NotFound();
 
-			foreach (CookiesItemVM item in basket.cookiesItemVMs)
+			User? user = (User)_context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+			Basket basket = _context.Baskets.FirstOrDefault(b => b.User.Name == User.Identity.Name);
+
+			Color color = _context.Colors.FirstOrDefault(c => c.Id == clothingVM.AddCart.ColorId);
+			Size size = _context.Sizes.FirstOrDefault(s=>s.Id == clothingVM.AddCart.SizeId);
+			int quantity = clothingVM.AddCart.Quantity;
+
+			//return Json(color);
+
+			if (user != null)
 			{
-				if (item.Id == Id)
+				if (basket is null)
 				{
-					basket.cookiesItemVMs.Remove(item);
-					basket.TotalPrice -= (item.Price-item.Discount) * item.Quantity;
-					break;
-				};
+					Basket newBasket = new()
+					{
+						User = user,
+					};
+
+					BasketItem basketItem = new()
+					{
+						ClothingId = Id,
+						UnitPrice = (clothing.Price - clothing.Discount),
+						Discount = clothing.Discount,
+						ItemQuantity = quantity,
+						BasketId = newBasket.Id,
+						Basket = newBasket,
+					};
+
+					basketItem.ClothingColorSize.ColorId = color.Id;
+					basketItem.ClothingColorSize.SizeId = size.Id;
+					basketItem.ClothingColorSize.ClothingId = clothing.Id;
+
+					newBasket.BasketItems.Add(basketItem);
+					newBasket.TotalPrice += basketItem.UnitPrice;
+
+					_context.BasketItems.Add(basketItem);
+					_context.Baskets.Add(newBasket);
+				}
+				else
+				{
+
+					BasketItem exicted = basket.BasketItems.Find(bi => bi.ClothingId == Id);
+
+					if (exicted is null)
+					{
+						BasketItem newItem = new()
+						{
+							ClothingId = Id,
+							UnitPrice = (clothing.Price - clothing.Discount),
+							Discount = clothing.Discount,
+							ItemQuantity = 1,
+							BasketId = basket.Id,
+							Basket = basket,
+						};
+
+						newItem.ClothingColorSize.ColorId = color.Id;
+						newItem.ClothingColorSize.SizeId = size.Id;
+						newItem.ClothingColorSize.ClothingId = clothing.Id;
+
+						basket.BasketItems.Add(newItem);
+						basket.TotalPrice += newItem.UnitPrice;
+
+						_context.BasketItems.Add(newItem);
+					}
+					else
+					{
+						exicted.ItemQuantity++;
+						basket.TotalPrice += (exicted.UnitPrice);
+					}
+
+				}
 			}
-			var basketStr = JsonConvert.SerializeObject(basket);
-			HttpContext.Response.Cookies.Append("basket", basketStr);
-			return RedirectToAction("Index", "Home");
+
+			_context.SaveChanges();
+			return RedirectToAction(nameof(Index));
 		}
+
+		//public IActionResult AddToBasket(int Id)
+		//{
+		//	if(Id == 0) return NotFound();
+
+		//	Clothing clothing = _context.Clothes.FirstOrDefault(c => c.Id == Id);
+
+		//	if(clothing is null) return NotFound();
+
+		//	var Cookies = HttpContext.Request.Cookies["Basket"];
+
+		//	CookiesBasketVM basket = new();
+
+		//	if (Cookies is null)
+		//	{
+		//		CookiesItemVM item = new()
+		//		{
+		//			Id = clothing.Id,
+		//			Quantity = 1,
+		//			Price = clothing.Price,
+		//			Discount = clothing.Discount,
+		//		};
+		//		basket.cookiesItemVMs.Add(item);
+		//		basket.TotalPrice += (item.Price-item.Discount);
+		//	}
+		//	else
+		//	{
+		//		basket = JsonConvert.DeserializeObject<CookiesBasketVM>(Cookies);
+		//		CookiesItemVM exictedItem = basket.cookiesItemVMs.Find(i => i.Id == Id);
+		//		if (exictedItem is null)
+		//		{
+		//			CookiesItemVM item = new()
+		//			{
+		//				Id = clothing.Id,
+		//				Quantity = 1,
+		//				Price = clothing.Price,
+		//				Discount = clothing.Discount,
+		//			};
+		//			basket.cookiesItemVMs.Add(item);
+		//			basket.TotalPrice += (item.Price-item.Discount);
+		//		}
+		//		else
+		//		{
+		//			exictedItem.Quantity++;
+		//			basket.TotalPrice += exictedItem.Price-exictedItem.Discount;
+		//		}
+		//	}
+		//	var basketStr = JsonConvert.SerializeObject(basket);
+		//	HttpContext.Response.Cookies.Append("basket", basketStr);
+		//	return RedirectToAction(nameof(Index));
+		//}
+
+		//public IActionResult DeleteBasketItem(int Id)
+		//{
+		//	var cookies = HttpContext.Request.Cookies["Basket"];
+		//	var basket = JsonConvert.DeserializeObject<CookiesBasketVM>(cookies);
+
+		//	foreach (CookiesItemVM item in basket.cookiesItemVMs)
+		//	{
+		//		if (item.Id == Id)
+		//		{
+		//			basket.cookiesItemVMs.Remove(item);
+		//			basket.TotalPrice -= (item.Price-item.Discount) * item.Quantity;
+		//			break;
+		//		};
+		//	}
+		//	var basketStr = JsonConvert.SerializeObject(basket);
+		//	HttpContext.Response.Cookies.Append("basket", basketStr);
+		//	return RedirectToAction("Index", "Home");
+		//}
 
 		public async Task<IActionResult> AddComment(int Id, Comment newComment)
 		{

@@ -89,6 +89,15 @@
         <dd class = "col-sm-10">
             @categories.FirstOrDefault(c=>c.Id.Equals(Model.CategoryId)).Name
         </dd>
+        @foreach (var item in Model.ClothingTags)
+        {        
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Category)
+            </dt>
+        }
+        <dd class = "col-sm-10">
+            @categories.FirstOrDefault(c=>c.Id.Equals(Model.CategoryId)).Name
+        </dd>
     </dl>
 </div>
 <div>

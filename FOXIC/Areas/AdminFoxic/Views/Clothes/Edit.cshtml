@@ -71,10 +71,11 @@
                    <div>
                         <div class="card col-md-4" style="@(image.IsMain.Equals(true) ? "width:250px" : "width:150px")">
                             <img style="@(image.IsMain.Equals(true) ? "width:250px;height:250px" : "width:150px;height:150px");object-fit:contain" src="/images/Clothing/@image.Path" class="card-img-top @(image.IsMain.Equals(true) ? "main" : "")" />
+                            <input type="hidden" name="ImagesIds"  value="@image.Id"/>
                             @if (image.IsMain == false)
                             {
                                 <div class="card-button">
-                                    <button style="position:relative;top-100px" type="button" class="btn btn-danger delBtn"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1">
+                                    <button style="position:relative;" type="button" class="btn btn-danger delBtn"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 -0.5 21 21" version="1.1">
     
     <title>delete [#1487]</title>
     <desc>Created with Sketch.</desc>
@@ -93,7 +94,6 @@
 </svg></button>
                                 </div>
                             }
-                            <input type="hidden" name="ImagesId"  value="@image.Id"/>
                         </div>
                    </div>
                 }
@@ -167,6 +167,7 @@
                     }
 
                 </select>
+                <span asp-validation-for="TagsIds"></span>
             </div>
             <div class="mt-5 form-group">
                 <label class="control-label">Size - Color - Quantity</label>

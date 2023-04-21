@@ -1,0 +1,69 @@
+﻿@using FOXIC.Entities.ClothingModels;
+@model FOXIC.Entities.ClothingModels.ClothingColorSize
+
+@{
+    ViewData["Title"] = "Delete";
+    List<Clothing> clothes = ViewBag.Clothes;
+    List<Color> colors = ViewBag.Colors;
+    List<Size> sizes = ViewBag.Sizes;
+}
+<div style="padding:100px 100px 100px 300px">
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ClothingColorSize</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Clothing)
+        </dt>
+        @foreach (var clothing in clothes)
+        {
+            if(clothing.Id == Model.ClothingId)
+            {
+                <dd class = "col-sm-10">
+                    @clothing.Name
+                </dd>
+            }
+        }
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Color)
+        </dt>
+        @foreach (var color in colors)
+        {
+                if (color.Id == Model.ColorId)
+            {
+                <dd class = "col-sm-10">
+                    @color.Name
+                </dd>
+            }
+        }
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Size)
+        </dt>
+        @foreach (var size in sizes)
+        {
+                if (size.Id == Model.SizeId)
+            {
+                <dd class = "col-sm-10">
+                    @size.Name
+                </dd>
+            }
+        }
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
+</div>

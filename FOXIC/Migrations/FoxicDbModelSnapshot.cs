@@ -39,7 +39,7 @@ namespace FOXIC.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.ClothingModels.Category", b =>
@@ -59,7 +59,7 @@ namespace FOXIC.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.ClothingModels.Clothing", b =>
@@ -115,7 +115,7 @@ namespace FOXIC.Migrations
 
                     b.HasIndex("CollectionId");
 
-                    b.ToTable("Clothes");
+                    b.ToTable("Clothes", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.ClothingModels.ClothingColorSize", b =>
@@ -146,7 +146,7 @@ namespace FOXIC.Migrations
 
                     b.HasIndex("SizeId");
 
-                    b.ToTable("ClothingColorSizes");
+                    b.ToTable("ClothingColorSizes", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.ClothingModels.ClothingQualityDetail", b =>
@@ -169,7 +169,7 @@ namespace FOXIC.Migrations
 
                     b.HasIndex("QualityDetailId");
 
-                    b.ToTable("ClothingQualityDetails");
+                    b.ToTable("ClothingQualityDetails", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.ClothingModels.ClothingTag", b =>
@@ -192,7 +192,7 @@ namespace FOXIC.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("ClothingTags");
+                    b.ToTable("ClothingTags", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.ClothingModels.Collection", b =>
@@ -212,7 +212,7 @@ namespace FOXIC.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Collections");
+                    b.ToTable("Collections", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.ClothingModels.Color", b =>
@@ -236,7 +236,7 @@ namespace FOXIC.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Colors");
+                    b.ToTable("Colors", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.ClothingModels.ProductImage", b =>
@@ -261,7 +261,7 @@ namespace FOXIC.Migrations
 
                     b.HasIndex("ClothingId");
 
-                    b.ToTable("ProductImages");
+                    b.ToTable("ProductImages", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.ClothingModels.QualityDetail", b =>
@@ -278,7 +278,7 @@ namespace FOXIC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("QualityDetails");
+                    b.ToTable("QualityDetails", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.ClothingModels.Size", b =>
@@ -298,7 +298,7 @@ namespace FOXIC.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Sizes");
+                    b.ToTable("Sizes", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.ClothingModels.Tag", b =>
@@ -318,7 +318,7 @@ namespace FOXIC.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.Setting", b =>
@@ -342,7 +342,7 @@ namespace FOXIC.Migrations
                     b.HasIndex("Key")
                         .IsUnique();
 
-                    b.ToTable("Settings");
+                    b.ToTable("Settings", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.SliderModel.Slider", b =>
@@ -369,7 +369,7 @@ namespace FOXIC.Migrations
                     b.HasIndex("Order")
                         .IsUnique();
 
-                    b.ToTable("Sliders");
+                    b.ToTable("Sliders", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.UserModels.Basket", b =>
@@ -389,18 +389,15 @@ namespace FOXIC.Migrations
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Baskets");
+                    b.ToTable("Baskets", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.UserModels.BasketItem", b =>
@@ -414,8 +411,14 @@ namespace FOXIC.Migrations
                     b.Property<int>("BasketId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ClothingColorSizeId")
+                    b.Property<int?>("ClothingColorSizeId")
                         .HasColumnType("int");
+
+                    b.Property<int>("ClothingId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ItemQuantity")
                         .HasColumnType("int");
@@ -429,7 +432,7 @@ namespace FOXIC.Migrations
 
                     b.HasIndex("ClothingColorSizeId");
 
-                    b.ToTable("BasketItems");
+                    b.ToTable("BasketItems", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.UserModels.Comment", b =>
@@ -460,7 +463,7 @@ namespace FOXIC.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("FOXIC.Entities.UserModels.Order", b =>
@@ -488,7 +491,7 @@ namespace FOXIC.Migrations
                     b.HasIndex("BasketId")
                         .IsUnique();
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -817,7 +820,7 @@ namespace FOXIC.Migrations
                 {
                     b.HasOne("FOXIC.Entities.UserModels.User", "User")
                         .WithMany("Baskets")
-                        .HasForeignKey("UserId1")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -834,9 +837,7 @@ namespace FOXIC.Migrations
 
                     b.HasOne("FOXIC.Entities.ClothingModels.ClothingColorSize", "ClothingColorSize")
                         .WithMany("BasketItems")
-                        .HasForeignKey("ClothingColorSizeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClothingColorSizeId");
 
                     b.Navigation("Basket");
 

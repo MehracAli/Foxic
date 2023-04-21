@@ -1,0 +1,79 @@
+﻿@using FOXIC.Entities.ClothingModels;
+@model IEnumerable<FOXIC.Entities.ClothingModels.ClothingColorSize>
+
+@{
+    ViewData["Title"] = "Index";
+    List<Clothing> clothes = ViewBag.Clothes;
+    List<Color> colors = ViewBag.Colors;
+    List<Size> sizes = ViewBag.Sizes;
+}
+<div style="padding:100px 100px 100px 300px">
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Clothing)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Size)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            @foreach (var clothing in clothes)
+            {       
+                if(item.Clothing.Id == clothing.Id)
+                {
+                <td>
+                    @item.Clothing.Name
+                </td>
+                }
+            }
+            @foreach (var color in colors)
+            {    
+                if(item.Color.Id == color.Id)
+                {
+                    <td>
+                        @item.Color.Name
+                    </td>
+                }
+            }
+            @foreach (var size in sizes)
+            {    
+                if(item.Size.Id == size.Id)
+                {
+                    <td>
+                        @item.Size.Name
+                    </td>
+                }
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Size.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-Id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-Id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
