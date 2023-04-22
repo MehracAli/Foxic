@@ -42,7 +42,7 @@
 								@foreach (var clothing in clothes)
 								{	if(clothing.Id == item.Id)
 									{
-										<a href="product.html" class="prd-img"><img class="lazyload fade-up" src="/images/Clothing/@clothing.Images.FirstOrDefault(i=>i.IsMain == true).Path" alt=""></a>
+										<a asp-controller="Clothing" asp-action="Detail" asp-route-Id="@item.Id" class="prd-img"><img class="lazyload fade-up" src="/images/Clothing/@clothing.Images.FirstOrDefault(i=>i.IsMain == true).Path" alt=""></a>
 									}	
 								}
 							</div>
@@ -70,7 +70,6 @@
 						</div>
 						}
 					</div>
-					<div class="text-center mt-1"><a href="#" class="btn btn--grey">Clear All</a></div>
 					<div class="d-none d-lg-block">
 						<div class="mt-4"></div>
 					</div>
@@ -85,7 +84,7 @@
 					<div class="card-total">
 						<div class="row d-flex">
 							<div class="col card-total-txt">Total</div>
-							<div class="col-auto card-total-price text-right">$ 475.00</div>
+							<div class="col-auto card-total-price text-right">$@Model.TotalPrice</div>
 						</div>
 						<button class="btn btn--full btn--lg"><span>Checkout</span></button>
 						<div class="card-text-info text-right">

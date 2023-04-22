@@ -403,7 +403,7 @@ namespace FOXIC.Controllers
 				CookiesItemVM exictedItem = basket.cookiesItemVMs.Find(i => i.Id == Id);
 				if (exictedItem is null)
 				{
-					CookiesItemVM item = new()
+					CookiesItemVM newItem = new()
 					{
 						Id = clothing.Id,
 						Quantity = quantity,
@@ -412,11 +412,27 @@ namespace FOXIC.Controllers
 						ClorId = color.Id,
 						SizeId = size.Id
 					};
-					basket.cookiesItemVMs.Add(item);
-					basket.TotalPrice += (item.Price - item.Discount);
+
+					basket.cookiesItemVMs.Add(newItem);
+					basket.TotalPrice += (newItem.Price - newItem.Discount);
 				}
 				else
 				{
+					if (exictedItem.ClorId != color.Id || exictedItem.SizeId != size.Id)
+					{
+						CookiesItemVM item = new()
+						{
+							Id = clothing.Id,
+							Quantity = quantity,
+							Price = clothing.Price,
+							Discount = clothing.Discount,
+							ClorId = color.Id,
+							SizeId = size.Id
+						};
+
+						basket.cookiesItemVMs.Add(item);
+						basket.TotalPrice += (item.Price - item.Discount);
+					}
 					exictedItem.Quantity+=quantity;
 					basket.TotalPrice += exictedItem.Price - exictedItem.Discount;
 				}
@@ -494,10 +510,9 @@ namespace FOXIC.Controllers
 					{
 						wish.cookiesWishItemVM.Remove(item);
 					}
-					GetWishItem(item.Id);
 				}
 			}
-			return View();
+			return View(wish);
 		}
 
 		public async Task<IActionResult> AddComment(int Id, Comment newComment)
