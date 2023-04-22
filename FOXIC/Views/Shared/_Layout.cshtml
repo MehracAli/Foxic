@@ -1,10 +1,9 @@
 ﻿@inject LayoutService layoutServices
 @using FOXIC.Entities.ClothingModels;
-@using FOXIC.Entities.UserModels;
 @using FOXIC.Services
 @{
-	List <Clothing> clothes = ViewBag.Clothes;
-	var basket = await layoutServices.GetBasket();
+	List<Color> colors = ViewBag.Colors;
+	List<Size> sizes = ViewBag.Sizes;
 }
 <!DOCTYPE html>
 <html>
@@ -66,7 +65,7 @@
 <!-- /Header Search -->
 						<!-- Header Wishlist -->
 <div class="dropdn dropdn_wishlist">
-	<a asp-controller="User" asp-action="Wishlist" class="dropdn-link only-icon wishlist-link ">
+	<a asp-controller="Clothing" asp-action="Wishlist" class="dropdn-link only-icon wishlist-link ">
 		<i class="icon-heart"></i><span class="dropdn-link-txt">Wishlist</span><span class="wishlist-qty"></span>
 	</a>
 </div>
@@ -79,7 +78,7 @@
 <div class="dropdn dropdn_fullheight minicart">
 	<a href="#" class="dropdn-link js-dropdn-link minicart-link only-icon" data-panel="#dropdnMinicart">
 		<i class="icon-basket"></i>
-		<span class="minicart-qty"></span>
+		<span class="minicart-qty">@(layoutServices.GetBasket() is null ? "0":layoutServices.GetBasket().cookiesItemVMs.Count)</span>
 		<span class="minicart-total hide-mobile">$</span>
 	</a>
 </div>
@@ -210,7 +209,7 @@
 <!-- /Header Search -->
 							<!-- Header Wishlist -->
 <div class="dropdn dropdn_wishlist">
-	<a asp-controller="User" asp-action="Wishlist" class="dropdn-link only-icon wishlist-link ">
+	<a asp-controller="Clothing" asp-action="Wishlist" class="dropdn-link only-icon wishlist-link ">
 		<i class="icon-heart"></i><span class="dropdn-link-txt">Wishlist</span><span class="wishlist-qty"></span>
 	</a>
 </div>
@@ -225,7 +224,7 @@
 							<div class="dropdn dropdn_fullheight minicart">
 	<a href="#" class="dropdn-link js-dropdn-link minicart-link" data-panel="#dropdnMinicart">
 		<i class="icon-basket"></i>
-		<span class="minicart-qty"></span>
+		<span class="minicart-qty">@(layoutServices.GetBasket() is null ? "0":layoutServices.GetBasket().cookiesItemVMs.Count)</span>
 		<span class="minicart-total hide-mobile">$</span>
 	</a>
 </div>
@@ -463,28 +462,45 @@
 		<div class="dropdn-close"><span class="js-dropdn-close">Close</span></div>
 		<div class="minicart-drop-content js-dropdn-content-scroll">
 		@*BURADA BASLAYIR*@
-					@foreach (BasketItem item in basket.BasketItems)
+					@foreach (var item in layoutServices.GetBasket().cookiesItemVMs)
 					{
-						foreach (Clothing clothing in clothes)
-						{
-							if(clothing.Id == item.ClothingId)
-							{
-								<div class="minicart-prd row">
+						<div class="minicart-prd row">
 							<div class="minicart-prd-image image-hover-scale-circle col">
-								<a href="product.html"><img class="lazyload fade-up" src="/images/Clothing/@clothing.Images.FirstOrDefault(c=>c.IsMain == true).Path" alt=""></a>
+								<a asp-controller="Clothing" asp-action="Detail" asp-route-Id="@item.Id"><img class="lazyload fade-up" src="/images/Clothing/@layoutServices.GetBasketItem(item.Id).Images.FirstOrDefault(i=>i.IsMain == true).Path" alt=""></a>
 							</div>
 							<div class="minicart-prd-info col">
-								<h2 class="minicart-prd-name"><a href="#">@clothing.Name</a></h2>
-								<div class="minicart-prd-qty"><span class="minicart-prd-qty-label">Quantity:</span><span class="minicart-prd-qty-value">@item.ItemQuantity</span></div>
-								<div class="minicart-prd-price prd-price">
-									@if (clothing.Discount != 0)
+								<h2 class="minicart-prd-name"><a href="#">@layoutServices.GetBasketItem(item.Id).Name</a></h2>
+								<div class="minicart-prd-qty"><span class="minicart-prd-qty-label">Quantity:</span><span class="minicart-prd-qty-value">@item.Quantity</span></div>
+								
+								@if (item.ClorId != 0)
+								{	
+									foreach (var color in colors)
 									{
-										<div class="price-old">$@clothing.Price</div>
-										<div class="price-new">$@(clothing.Price - @clothing.Discount)</div>
+										if (item.ClorId == color.Id)
+										{
+											<div class="minicart-prd-qty"><span class="minicart-prd-qty-label">Color:</span><span class="minicart-prd-qty-value">@color.Name</span></div>
+										}
+									}
+								}
+								@if(item.SizeId != 0)
+								{
+									foreach (var size in sizes)
+									{
+										if(item.SizeId == size.Id)
+										{
+											<div class="minicart-prd-qty"><span class="minicart-prd-qty-label">Size:</span><span class="minicart-prd-qty-value">@size.Name</span></div>
+										}
+									}
+								}
+								<div class="minicart-prd-price prd-price">
+									@if (@layoutServices.GetBasketItem(item.Id).Discount != 0)
+									{
+										<div class="price-old">$@layoutServices.GetBasketItem(item.Id).Price</div>
+										<div class="price-new">$@(layoutServices.GetBasketItem(item.Id).Price - @layoutServices.GetBasketItem(item.Id).Discount)</div>
 									}
 									else
 									{
-										<div class="price-new">$@clothing.Price</div>
+										<div class="price-new">$@(layoutServices.GetBasketItem(item.Id).Price)</div>
 									}
 								</div>
 							</div>
@@ -492,8 +508,6 @@
 								<a asp-controller="Clothing" asp-action="DeleteBasketItem" asp-route-Id="@item.Id" data-line-number="1"><i class="icon-recycle"></i></a>
 							</div>
 						</div>
-							}
-						}
 					}
 			<div class="minicart-empty js-minicart-empty d-none">
 				<div class="minicart-empty-text">Your cart is empty</div>
@@ -502,9 +516,23 @@
 					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 306 262" style="enable-background:new 0 0 306 262;" xml:space="preserve"><path class="st0" d="M78.1,59.5c0,0-37.3,22-26.7,85s59.7,237,142.7,283s193,56,313-84s21-206-69-240s-249.4-67-309-60C94.6,47.6,78.1,59.5,78.1,59.5z"/></svg>
 				</div>
 			</div>
+			<a href="#" class="minicart-drop-countdown mt-3">
+				<div class="countdown-box-full">
+					<div class="row no-gutters align-items-center">
+						<div class="col-auto"><i class="icon-gift icon--giftAnimate"></i></div>
+						<div class="col">
+							<div class="countdown-txt">WHEN BUYING TWO
+								THINGS A THIRD AS A GIFT
+							</div>
+							<div class="countdown js-countdown" data-countdown="2021/07/01"></div>
+						</div>
+					</div>
+				</div>
+			</a>
 			<div class="minicart-drop-info d-none d-md-block">
 				<div class="shop-feature-single row no-gutters align-items-center">
 					<div class="shop-feature-icon col-auto"><i class="icon-truck"></i></div>
+					<div class="shop-feature-text col"><b>SHIPPING!</b> Continue shopping to add more products and receive free shipping</div>
 				</div>
 			</div>
 		</div>
@@ -512,10 +540,10 @@
 			<div class="loader-horizontal-sm js-loader-horizontal-sm" data-loader-horizontal=""><span></span></div>
 			<div class="minicart-drop-total js-minicart-drop-total row no-gutters align-items-center">
 				<div class="minicart-drop-total-txt col-auto heading-font">Subtotal</div>
-						<div class="minicart-drop-total-price col" data-header-cart-total="">$@(User.Identity.IsAuthenticated ? basket.TotalPrice:"0")</div>
+						<div class="minicart-drop-total-price col" data-header-cart-total="">$@(layoutServices.GetBasket() is null ? "0" : layoutServices.GetBasket().TotalPrice)</div>
 			</div>
 			<div class="minicart-drop-actions">
-				<a asp-controller="Basket" asp-action="Index" asp-route-userName = "@User.Identity.Name" class="btn btn--md btn--grey">
+				<a asp-controller="Clothing" asp-action="Cart" class="btn btn--md btn--grey">
 					<i class="icon-basket"></i>
 					<span>Cart Page</span>
 				</a>

@@ -188,12 +188,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5Gb3hpY1xWaWV3c1xfVmlld1N0YXJ0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Programming/ProjeBack/ProjectFatal/FOXIC/Views/Clothing/Cart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xvdGhpbmdcQ2FydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Programming/ProjeBack/ProjectFatal/FOXIC/Views/Clothing/Detail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xvdGhpbmdcRGV0YWlsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Programming/ProjeBack/ProjectFatal/FOXIC/Views/Clothing/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xvdGhpbmdcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Programming/ProjeBack/ProjectFatal/FOXIC/Views/Clothing/Wishlist.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xvdGhpbmdcV2lzaGxpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Programming/ProjeBack/ProjectFatal/FOXIC/Views/Home/Index.cshtml]
@@ -218,10 +226,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Programming/ProjeBack/ProjectFatal/FOXIC/Views/User/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxSZWdpc3Rlci5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[D:/Programming/ProjeBack/ProjectFatal/FOXIC/Views/User/Wishlist.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxXaXNobGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Programming/ProjeBack/ProjectFatal/FOXIC/Views/_ViewImports.cshtml]

@@ -28,6 +28,7 @@ namespace FOXIC.Controllers
             ViewBag.Clothes = _context.Clothes.Include(c=>c.Images).Include(c=>c.ClothingColorSizes).OrderByDescending(c=>c.Id).ToList();
             ViewBag.Collections = _context.Collections.ToList();
             ViewBag.Colors = _context.Colors.ToList();
+            ViewBag.Sizes = _context.Sizes.ToList();
             ViewBag.Brands = _context.Brands.ToList();
 			return View(sliders);
         }

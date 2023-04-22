@@ -1,0 +1,101 @@
+﻿@using FOXIC.Entities.ClothingModels;
+@using FOXIC.ViewModel;
+@model CookiesBasketVM;
+@{
+	List<Color> colors = ViewBag.Colors;
+	List<Size> sizes = ViewBag.Sizes;
+	List<Clothing> clothes = ViewBag.Clothes;
+	ViewData["Title"] = "Cart";
+}
+<div class="page-content">
+	<div class="holder breadcrumbs-wrap mt-0">
+		<div class="container">
+			<ul class="breadcrumbs">
+				<li><a href="index.html">Home</a></li>
+				<li><span>Cart</span></li>
+			</ul>
+		</div>
+	</div>
+	<div class="holder">
+		<div class="container">
+			<div class="page-title text-center">
+				<h1>Shopping Cart</h1>
+			</div>
+			<div class="row">
+				<div class="col-lg-11 col-xl-13">
+					<div class="cart-table">
+						<div class="cart-table-prd cart-table-prd--head py-1 d-none d-md-flex">
+							<div class="cart-table-prd-image text-center">
+								Image
+							</div>
+							<div class="cart-table-prd-content-wrap">
+								<div class="cart-table-prd-info">Name</div>
+								<div class="cart-table-prd-qty">Qty</div>
+								<div class="cart-table-prd-price">Price</div>
+								<div class="cart-table-prd-action">&nbsp;</div>
+							</div>
+						</div>
+						@foreach (var item in Model.cookiesItemVMs)
+						{
+							<div class="cart-table-prd">
+							<div class="cart-table-prd-image">
+								@foreach (var clothing in clothes)
+								{	if(clothing.Id == item.Id)
+									{
+										<a href="product.html" class="prd-img"><img class="lazyload fade-up" src="/images/Clothing/@clothing.Images.FirstOrDefault(i=>i.IsMain == true).Path" alt=""></a>
+									}	
+								}
+							</div>
+							<div class="cart-table-prd-content-wrap">
+								<div class="cart-table-prd-info">
+									<div class="cart-table-prd-price">
+										<div class="price-old">$@item.Price</div>
+										<div class="price-new">$@(item.Price-item.Discount)</div>
+									</div>
+									@foreach (var clothing in clothes)
+									{
+										if (clothing.Id == item.Id)
+										{
+											<h2 class="cart-table-prd-name"><a href="product.html">@clothing.Name</a></h2>
+										}
+									}
+								</div>
+								<div class="cart-table-prd-price-total">
+									$@(item.Price*item.Quantity) / @item.Quantity
+								</div>
+							</div>
+							<div class="cart-table-prd-action">
+									<a asp-controller="Clothing" asp-action="DeleteBasketItem" asp-route-Id="@item.Id" class="cart-table-prd-remove" data-tooltip="Remove Product"><i class="icon-recycle"></i></a>
+							</div>
+						</div>
+						}
+					</div>
+					<div class="text-center mt-1"><a href="#" class="btn btn--grey">Clear All</a></div>
+					<div class="d-none d-lg-block">
+						<div class="mt-4"></div>
+					</div>
+				</div>
+				<div class="col-lg-7 col-xl-5 mt-3 mt-md-0">
+					<div class="cart-promo-banner">
+						<div class="cart-promo-banner-inside">
+							<div class="txt1">Save 50%</div>
+							<div class="txt2">Only Today!</div>
+						</div>
+					</div>
+					<div class="card-total">
+						<div class="row d-flex">
+							<div class="col card-total-txt">Total</div>
+							<div class="col-auto card-total-price text-right">$ 475.00</div>
+						</div>
+						<button class="btn btn--full btn--lg"><span>Checkout</span></button>
+						<div class="card-text-info text-right">
+							<h5>Standart shipping</h5>
+							<p><b>10 - 11 business days</b><br>1 item ships from the U.S. and will be delivered in 10 - 11 business days</p>
+						</div>
+					</div>
+					<div class="mt-2"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

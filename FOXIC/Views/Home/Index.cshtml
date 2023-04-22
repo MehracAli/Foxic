@@ -5,7 +5,8 @@
 	ViewData["Title"] = "Home Page";
 	List<Clothing> clothes = ViewBag.Clothes;
 	List<Collection> collections = ViewBag.Collections;
-	List<Color> colors = ViewBag.Colors; 
+	List<Color> colors = ViewBag.Colors;
+	List<Size> sizes = ViewBag.Sizes;
 }
 @section CSS{
 	<style>
@@ -114,11 +115,8 @@
 								<div class="prd-big-squared-labels"></div>
 							</a>
 						<div class="prd-circle-labels">
-							<a href="#" class="circle-label-compare circle-label-wishlist--add js-add-wishlist mt-0" title="Add To Wishlist">
+							<a asp-controller="Clothing" asp-action="AddWish" asp-route-Id="@clothing.Id" class="circle-label-compare" title="Add To Wishlist">
 								<i class="icon-heart-stroke"></i>
-							</a>
-							<a href="#" class="circle-label-compare circle-label-wishlist--off js-remove-wishlist mt-0" title="Remove From Wishlist">
-								<i class="icon-heart-hover"></i>
 							</a>
 							<a href="#" class="circle-label-qview js-prd-quickview prd-hide-mobile" data-src="ajax/ajax-quickview.html">
 								<i class="icon-eye"></i>

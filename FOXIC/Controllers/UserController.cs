@@ -1,4 +1,6 @@
-﻿using FOXIC.Entities.UserModels;
+﻿using FOXIC.DataAccesLayer;
+using FOXIC.Entities.ClothingModels;
+using FOXIC.Entities.UserModels;
 using FOXIC.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,20 +10,24 @@ namespace FOXIC.Controllers
 {
 	public class UserController : Controller
 	{
+		public FoxicDb _context;
 		private readonly UserManager<User> _userManager;
 		private readonly SignInManager<User> _signInManager;
 		private readonly RoleManager<IdentityRole> _roleManager;
 
 
-		public UserController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
+		public UserController(FoxicDb context,UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
 			_roleManager = roleManager;
+			_context = context;
         }
 
 		public IActionResult Register()
 		{
+			ViewBag.Sizes = _context.Sizes.ToList();
+			ViewBag.Colors = _context.Colors.ToList();
 			return View();
 		}
 
@@ -52,6 +58,8 @@ namespace FOXIC.Controllers
 
 		public IActionResult Login()
 		{
+			ViewBag.Sizes = _context.Sizes.ToList();
+			ViewBag.Colors = _context.Colors.ToList();
 			return View();
 		}
 
@@ -91,20 +99,20 @@ namespace FOXIC.Controllers
 
 		public async Task<IActionResult> Details()
 		{
+			ViewBag.Sizes = _context.Sizes.ToList();
+			ViewBag.Colors = _context.Colors.ToList();
 			User user = await _userManager.FindByNameAsync(User.Identity.Name);
 
 			return View(user);
 		}
 
-		public IActionResult Wishlist()
+		public IActionResult History()
 		{
+			ViewBag.Sizes = _context.Sizes.ToList();
+			ViewBag.Colors = _context.Colors.ToList();
 			return View();
 		}
 
-		public IActionResult History()
-		{
-			return View();
-		}
 		//public async Task AddRoles()
 		//{
 		//	await _roleManager.CreateAsync(new IdentityRole("Admin"));

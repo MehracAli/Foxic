@@ -1,6 +1,9 @@
-﻿@using FOXIC.ViewModel;
+﻿@using FOXIC.Entities.ClothingModels;
+@using FOXIC.ViewModel;
 @model UserRegisterVM
 @{
+	List<Color> colors = ViewBag.Colors;
+	List<Size> sizes = ViewBag.Sizes;
     ViewData["Title"] = "Register";
 }
 <div class="page-content">

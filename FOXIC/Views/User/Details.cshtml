@@ -1,6 +1,9 @@
-﻿@using FOXIC.Entities.UserModels;
+﻿@using FOXIC.Entities.ClothingModels;
+@using FOXIC.Entities.UserModels;
 @model User
 @{
+	List<Color> colors = ViewBag.Colors;
+	List<Size> sizes = ViewBag.Sizes;
 	ViewData["Title"] = "Details";
 }
 <div class="page-content">
@@ -18,7 +21,7 @@
 				<div class="col-md-4 aside aside--left">
 					<div class="list-group">
 						<a asp-controller="User" asp-action="Details" class="list-group-item active">Account Details</a>
-						<a asp-controller="User" asp-action="Wishlist" class="list-group-item">My Wishlist</a>
+						<a asp-controller="Clothing" asp-action="Wishlist" class="list-group-item">My Wishlist</a>
 						<a asp-controller="User" asp-action="History" class="list-group-item">My Order History</a>
 					</div>
 				</div>
